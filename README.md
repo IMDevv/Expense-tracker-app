@@ -56,7 +56,7 @@ psql -U postgres
 
 2. Create database and user:
 ```sql
-CREATE DATABASE expense_tracker;
+CREATE DATABASE your_database_name;
 \c expense_tracker
 
 CREATE USER your_database_username WITH PASSWORD 'your_database_password';
@@ -93,7 +93,7 @@ php artisan key:generate
 DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
-DB_DATABASE=expense_tracker
+DB_DATABASE=your_database_name
 DB_USERNAME=your_database_username
 DB_PASSWORD=your_database_password
 ```
