@@ -11,8 +11,21 @@ class BudgetSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = User::first();
-        
+        \Log::info('BudgetSeeder is running');
+
+        $user = User::updateOrCreate(
+            ['email' => 'ringier@example.com'],
+            [
+                'name' => 'ringier',
+                'password' => bcrypt('ringier@123$'),
+                'role' => 'admin',
+                'email_verified_at' => Carbon::now(), 
+            ]
+        );
+
+        \Log::info('User created/updated', ['user' => $user]);
+
+        // Define budget categories and amounts
         $categories = [
             'Food' => 15000,
             'Transport' => 8000,
@@ -21,6 +34,7 @@ class BudgetSeeder extends Seeder
             'Entertainment' => 5000,
         ];
 
+        // Seed budgets for the created user
         foreach ($categories as $category => $amount) {
             Budget::create([
                 'user_id' => $user->id,
@@ -31,4 +45,4 @@ class BudgetSeeder extends Seeder
             ]);
         }
     }
-} 
+}
