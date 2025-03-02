@@ -19,6 +19,7 @@ class Expense extends Model
         'amount',
         'description',
         'date',
+        'budget_id',
     ];
 
     protected $casts = [
@@ -38,9 +39,7 @@ class Expense extends Model
 
     public function budget()
     {
-        return $this->belongsTo(Budget::class, 'category', 'category')
-            ->where('period_start', '<=', $this->date)
-            ->where('period_end', '>=', $this->date);
+        return $this->belongsTo(Budget::class);
     }
 
     protected static function boot()
@@ -61,10 +60,17 @@ class Expense extends Model
         });
 
         static::saving(function ($expense) {
-            $budget = $expense->budget;
+            $budget = Budget::where('user_id', $expense->user_id)
+                ->where('category', $expense->category)
+                ->where('period_start', '<=', $expense->date)
+                ->where('period_end', '>=', $expense->date)
+                ->first();
+            
             if (!$budget) {
                 throw new \Exception('No budget exists for this category in the selected period.');
             }
+            
+            $expense->budget_id = $budget->id;
         });
     }
 } 
