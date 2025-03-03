@@ -22,6 +22,7 @@ class UpdateProfile extends AppComponent
     public $deleteAccount = false;
     public $deleteConfirmPassword;
     public $photo;
+    public $showDeleteModal = false;
 
     protected $rules = [
         'avatar' => 'nullable|image|max:1024|mimes:jpg,jpeg,png|dimensions:min_width=100,min_height=100',
@@ -115,24 +116,35 @@ class UpdateProfile extends AppComponent
 
         $user = auth()->user();
 
-        // Delete avatar if exists
-        if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
-            Storage::disk('public')->delete($user->avatar);
+        try {
+            // Begin transaction
+            \DB::beginTransaction();
+
+            // Delete avatar if exists
+            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+
+            // Delete all related records
+            $user->expenses()->delete();
+            $user->budgets()->delete();
+            
+            // Delete the user
+            $user->delete();
+
+            \DB::commit();
+
+            auth()->logout();
+            session()->invalidate();
+            session()->regenerateToken();
+
+            return redirect()->route('login')->with('status', 'Account deleted successfully.');
+            
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            $this->addError('deleteConfirmPassword', 'Failed to delete account. Please try again.');
+            return;
         }
-
-        // Delete related records (expenses, budgets, etc.)
-        $user->expenses()->delete();
-        $user->budgets()->delete();
-        
-        // Delete the user
-        $user->delete();
-
-        auth()->logout();
-
-        session()->invalidate();
-        session()->regenerateToken();
-
-        return redirect()->route('login');
     }
 
     public function updateProfilePhoto()

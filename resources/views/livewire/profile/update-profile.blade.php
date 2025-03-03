@@ -123,11 +123,11 @@
                     {{ __('Delete Account') }}
                 </h2>
                 <p class="mt-1 text-sm text-gray-400">
-                    {{ __('Once your account is deleted, all of its resources and data will be permanently deleted.') }}
+                    {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
                 </p>
             </header>
 
-            <form wire:submit="confirmAccountDeletion" class="mt-6 space-y-6">
+            <form wire:submit.prevent="confirmAccountDeletion" class="mt-6 space-y-6">
                 <div>
                     <x-input-label for="deleteConfirmPassword" :value="__('Password')" />
                     <x-text-input wire:model="deleteConfirmPassword" 
@@ -138,9 +138,18 @@
                     <x-input-error :messages="$errors->get('deleteConfirmPassword')" class="mt-2" />
                 </div>
 
-                <div class="flex justify-start">
-                    <x-danger-button>
-                        {{ __('Delete Account') }}
+                <div class="flex items-center gap-4">
+                    <x-danger-button
+                        type="submit"
+                        wire:loading.attr="disabled"
+                        wire:target="confirmAccountDeletion"
+                    >
+                        <span wire:loading.remove wire:target="confirmAccountDeletion">
+                            {{ __('Delete Account') }}
+                        </span>
+                        <span wire:loading wire:target="confirmAccountDeletion">
+                            {{ __('Deleting...') }}
+                        </span>
                     </x-danger-button>
                 </div>
             </form>
