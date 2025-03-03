@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('budget_id');  
             $table->decimal('amount', 10, 2);
             $table->string('category');
             $table->text('description')->nullable();
@@ -19,10 +20,17 @@ return new class extends Migration
             $table->index(['user_id', 'date']);
             $table->index('category');
         });
+
+        Schema::table('expenses', function (Blueprint $table) {
+            $table->foreign('budget_id')
+                  ->references('id')
+                  ->on('budgets')
+                  ->onDelete('cascade');
+        });
     }
 
     public function down(): void
     {
         Schema::dropIfExists('expenses');
     }
-}; 
+};
