@@ -56,11 +56,11 @@ psql -U postgres
 
 2. Create database and user:
 ```sql
-CREATE DATABASE expense_tracker;
-\c expense_tracker
+CREATE DATABASE your_database_name;
+\c your_database_name
 
 CREATE USER your_database_username WITH PASSWORD 'your_database_password';
-GRANT ALL PRIVILEGES ON DATABASE expense_tracker TO your_database_username;
+GRANT ALL PRIVILEGES ON DATABASE your_database_name TO your_database_username;
 
 -- Grant Schema Access
 GRANT USAGE, CREATE ON SCHEMA public TO your_database_username;
