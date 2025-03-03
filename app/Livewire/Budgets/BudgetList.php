@@ -112,7 +112,14 @@ class BudgetList extends AppComponent
 
     public function confirmDelete(Budget $budget)
     {
+        $expenseCount = $budget->expenses()->count();
         $this->budgetToDelete = $budget;
+        
+        if ($expenseCount > 0) {
+            $this->dispatch('notify', type: 'warning', 
+                message: "Warning: Deleting this budget will also delete {$expenseCount} associated expenses!");
+        }
+        
         $this->dispatch('open-modal', 'confirm-delete');
     }
 
