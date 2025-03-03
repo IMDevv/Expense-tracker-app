@@ -50,7 +50,7 @@ class ExpenseList extends AppComponent
                 return;
             }
 
-            // Check if this expense would exceed the budget
+            // Check if expense exceeds the budget
             $remainingBudget = $budget->amount - $budget->spent;
             if ($validated['amount'] > $remainingBudget) {
                 $this->dispatch('notify', type: 'error', message: "This expense would exceed your budget for {$budget->category}. Remaining: KES " . number_format($remainingBudget, 2));
