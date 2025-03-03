@@ -56,7 +56,7 @@ psql -U postgres
 
 2. Create database and user:
 ```sql
-CREATE DATABASE your_database_name;
+CREATE DATABASE expense_tracker;
 \c expense_tracker
 
 CREATE USER your_database_username WITH PASSWORD 'your_database_password';
@@ -93,7 +93,7 @@ php artisan key:generate
 DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
-DB_DATABASE=your_database_name
+DB_DATABASE=expense_tracker
 DB_USERNAME=your_database_username
 DB_PASSWORD=your_database_password
 ```
@@ -157,4 +157,15 @@ Run the test suite:
 ```bash
 php artisan test
 ```
+
+## 👤 Default Login Credentials
+
+After running the database seeds, you can use these default credentials to log in:
+
+```
+Email: ringier@example.com
+Password: ringier@123$
+```
+
+> **Note**: Google OAuth is enabled as well for login and registration. Simply add your Google client ID and secret to the `.env` file.
 
