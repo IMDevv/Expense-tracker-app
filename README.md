@@ -79,7 +79,7 @@ cd expense-tracker-app
 2. Install dependencies:
 ```bash
 composer install
-npm install && npm run dev
+npm install 
 ```
 
 3. Configure environment:
@@ -118,6 +118,7 @@ php artisan storage:link
 
 7. Start the development server:
 ```bash
+npm run dev
 php artisan serve
 ```
 
