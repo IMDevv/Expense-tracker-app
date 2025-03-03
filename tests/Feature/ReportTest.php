@@ -24,7 +24,7 @@ class ReportTest extends TestCase
         $this->user = User::factory()->create();
         $this->budget = Budget::factory()->create([
             'user_id' => $this->user->id,
-            'category' => 'Food',
+            'category' => 'Food & Dining',
             'amount' => 1000,
             'period_start' => now()->startOfMonth(),
             'period_end' => now()->endOfMonth(),
@@ -90,7 +90,7 @@ class ReportTest extends TestCase
         // Just check that the component has the expected data
         $this->assertEquals(300, $component->get('totalExpenses'));
         
-        // Check that category breakdown contains our expense
+        // Check that category breakdown contains the expense
         $categoryBreakdown = $component->get('categoryBreakdown');
         $this->assertNotEmpty($categoryBreakdown);
         

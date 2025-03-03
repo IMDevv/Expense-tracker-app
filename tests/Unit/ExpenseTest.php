@@ -23,7 +23,7 @@ class ExpenseTest extends TestCase
         $this->user = User::factory()->create();
         $this->budget = Budget::factory()->create([
             'user_id' => $this->user->id,
-            'category' => 'Food',
+            'category' => 'Food & Dining',
             'amount' => 1000,
             'period_start' => now()->startOfMonth(),
             'period_end' => now()->endOfMonth(),
